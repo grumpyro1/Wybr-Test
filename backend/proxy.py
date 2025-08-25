@@ -36,29 +36,3 @@ if __name__ == "__main__": # This starts the server on your computer.
 
 # Browser/Flutter → Proxy → Real API → Proxy → Browser/Flutter
     
-# #--- proxy to show product image from odoo/etc. ----#
-#     @app.route("/proxy-image")
-#     def proxy_image():
-#         image_url = request.args.get("url")
-#         if not image_url:
-#             return "Missing URL", 400
-
-#         try:
-#             response = requests.get(image_url, headers={
-#                 "User-Agent": "Mozilla/5.0"
-#             })
-
-#             if response.status_code != 200:
-#                 return "Failed to fetch image", 502
-
-#             return Response(
-#                 response.content,
-#                 content_type=response.headers.get("Content-Type"),
-#                 headers={
-#                     "Access-Control-Allow-Origin": "*",
-#                     "Access-Control-Allow-Methods": "GET, OPTIONS",
-#                     "Access-Control-Allow-Headers": "Content-Type"
-#                 }
-#             )
-#         except Exception as e:
-#             return str(e), 500
