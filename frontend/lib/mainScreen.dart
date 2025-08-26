@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wybr/pages/donePage.dart';
 import 'package:wybr/pages/materialIsuancePage.dart';
+import 'package:wybr/pages/odooTest.dart';
 import 'package:wybr/pages/referenceWOPage.dart';
 import 'package:wybr/pages/testPage.dart';
 import 'package:wybr/pages/workOrders.dart';
@@ -27,7 +28,7 @@ class _MainscreenState extends State<Mainscreen> {
     '/reference': Referencewopage(),
     '/done':Donepage(),
     '/reports': Testpage(),
-    '/settings': Center(child: Text("System Settings Placeholder")),
+    '/settings': Odootest(),
     '/teams': Center(child: Text("Teams Placeholder")),
     '/documents': Center(child: Text("Documents Placeholder")),
     '/users': Center(child: Text("User Management Placeholder")),

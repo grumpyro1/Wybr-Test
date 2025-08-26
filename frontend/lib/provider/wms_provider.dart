@@ -43,7 +43,12 @@ final bomMaterialsProvider = FutureProvider.family.autoDispose<List<BOMGroup>, i
   return groups;
 });
 
-// Pass the endpoint you want: "users" or "companies" etc
+/// 🔹 Provider for Beeceptor/Proxy API
 final dataProvider = FutureProvider.family.autoDispose<List<dynamic>, String>((ref, endpoint) async {
   return await ApiService.fetchData(endpoint);
+});
+
+/// 🔹 Provider for Odoo Products
+final odooProductsProvider = FutureProvider.autoDispose<List<dynamic>>((ref) async {
+  return await ApiService.fetchOdooProducts();
 });

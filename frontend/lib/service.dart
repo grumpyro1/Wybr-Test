@@ -44,19 +44,61 @@ class WmsApiService {
 }
 
 class ApiService {
-  // static const String baseUrl = "http://127.0.0.1:5000/proxy";
-  static const String baseUrl = "http://192.168.254.102:5000/proxy";
+  // Replace with your LAN IP of Flask backend
+  static const String baseUrl = "http://192.168.254.102:5000";
 
-  // Fetch any endpoint from the proxy
+  // 🔹 Fetch from proxy (Beeceptor / any external API)
   static Future<List<dynamic>> fetchData(String endpoint) async {
-    final url = Uri.parse("$baseUrl/$endpoint");
+    final url = Uri.parse("$baseUrl/proxy/$endpoint");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body); // returns JSON list
+      return jsonDecode(response.body);
     } else {
       throw Exception("Failed to load data from $endpoint");
     }
   }
-}
 
+  // 🔹 Fetch products from Odoo via Flask
+  static Future<List<dynamic>> fetchOdooProducts() async {
+    final url = Uri.parse("$baseUrl/odoo/products");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> result = jsonDecode(response.body);
+
+      // Odoo JSON-RPC response format: {"jsonrpc": "2.0", "id": 3, "result": [...]}
+      if (result.containsKey("result")) {
+        return result["result"]; // this is the list of products
+      } else if (result.containsKey("error")) {
+        throw Exception("Odoo Error: ${result["error"]}");
+      } else {
+        throw Exception("Unexpected Odoo response format");
+      }
+    } else {
+      throw Exception("Failed to fetch Odoo products");
+    }
+  }
+
+  // 🔹 Add new product to Odoo
+  static Future<int> addOdooProduct(Map<String, dynamic> productData) async {
+    final url = Uri.parse("$baseUrl/odoo/add_product");
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(productData),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> result = jsonDecode(response.body);
+      if (result.containsKey("result")) {
+        return result["result"]; // Odoo returns the new product ID
+      } else {
+        throw Exception("Odoo Error: ${result["error"]}");
+      }
+    } else {
+      throw Exception("Failed to add product: ${response.body}");
+    }
+  }
+
+}
