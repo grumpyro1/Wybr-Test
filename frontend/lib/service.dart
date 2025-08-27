@@ -45,7 +45,7 @@ class WmsApiService {
 
 class ApiService {
   // static const String baseUrl = "http://127.0.0.1:5000/proxy";
-  static const String baseUrl = "http://192.168.254.102:5000/proxy";
+  static const String baseUrl = "http://192.168.254.110:5000/proxy";
 
   // Fetch any endpoint from the proxy
   static Future<List<dynamic>> fetchData(String endpoint) async {
